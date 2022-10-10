@@ -11,7 +11,7 @@ class Twilio
 {
     private $twilio;
     private $from;
-    private $US = true;
+    private $countryCodes = ["US"];
 
     /**
      * @throws ConfigurationException
@@ -31,7 +31,7 @@ class Twilio
     public function sendSms($to, $message)
     {
         if (!$this->isValidNumber($to)) {
-            throw new ConfigurationException("Incorrect number");
+            throw new TwilioException("Incorrect number");
         }
 
         return $this->twilio->messages->create($to, [
@@ -47,22 +47,25 @@ class Twilio
     {
         if (empty($to)) return false;
 
-        if ($this->US) {
-            if (!preg_match('/^\+[1-9]\d{1,14}$/', $to))
-                return false;
+        $lookup = $this->twilio->lookups->v2->phoneNumbers($to);
+        $number = $lookup->fetch(["type" => ["carrier"]]);
+
+        if (!in_array($number->countryCode, $this->countryCodes)) {
+            return false;
         }
 
-        $lookup = $this->twilio->lookups->v1->phoneNumbers($to);
-        $number = $lookup->fetch(["type" => ["carrier"]])->toArray();
-
-        if ($number['carrier']['type'] === 'mobile')
-            return true;
-
-        return false;
+        return $number->valid;
     }
 
-    public function notOnlyUS()
+    /**
+     * @throws TwilioException
+     */
+    public function updateCountryCodes($countryCodes)
     {
-        $this->US = false;
+        if (!is_array($countryCodes)) {
+            throw new TwilioException("List of countries must be in array");
+        }
+
+        $this->countryCodes = $countryCodes;
     }
 }
