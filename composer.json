@@ -1,0 +1,16 @@
+{
+    "name": "umtlv/twillio",
+    "type": "package",
+    "autoload": {
+        "psr-4": {
+            "Umtlv\\Twillio\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nurislan Umetaliev",
+            "email": "nurislan.umetaliev@axelkg.com"
+        }
+    ],
+    "require": {}
+}
