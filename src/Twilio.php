@@ -51,7 +51,7 @@ class Twilio
             return false;
 
         $lookup = $this->twilio->lookups->v1->phoneNumbers($to);
-        $number = $lookup->fetch(["type" => ["carrier"]]);
+        $number = $lookup->fetch(["type" => ["carrier"]])->toArray();
 
         if ($number['carrier']['type'] === 'mobile')
             return true;
