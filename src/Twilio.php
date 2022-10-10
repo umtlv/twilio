@@ -50,6 +50,8 @@ class Twilio
         $lookup = $this->twilio->lookups->v2->phoneNumbers($to);
         $number = $lookup->fetch(["type" => ["carrier"]]);
 
+        if (empty($number->toArray())) return false;
+
         if (!in_array($number->countryCode, $this->countryCodes)) {
             return false;
         }
