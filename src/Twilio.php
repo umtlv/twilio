@@ -47,8 +47,10 @@ class Twilio
     {
         if (empty($to)) return false;
 
-        if ($this->US && !preg_match('/^\+[1-9]\d{1,14}$/', $to))
-            return false;
+        if ($this->US) {
+            if (!preg_match('/^\+[1-9]\d{1,14}$/', $to))
+                return false;
+        }
 
         $lookup = $this->twilio->lookups->v1->phoneNumbers($to);
         $number = $lookup->fetch(["type" => ["carrier"]])->toArray();
