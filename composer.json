@@ -1,9 +1,9 @@
 {
-    "name": "umtlv/twillio",
+    "name": "umtlv/twilio",
     "type": "package",
     "autoload": {
         "psr-4": {
-            "Umtlv\\Twillio\\": "src/"
+            "Umtlv\\Twilio\\": "src/"
         }
     },
     "authors": [
@@ -12,5 +12,7 @@
             "email": "nurislan.umetaliev@axelkg.com"
         }
     ],
-    "require": {}
+    "require": {
+        "twilio/sdk": "^6.42"
+    }
 }
