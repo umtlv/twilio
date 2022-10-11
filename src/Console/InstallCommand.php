@@ -18,7 +18,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Install all of the Telescope resources';
+    protected $description = 'Install all of the Twilio resources';
 
     /**
      * Execute the console command.
