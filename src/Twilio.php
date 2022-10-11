@@ -10,15 +10,30 @@ class Twilio
 {
     private $twilio;
     private $from;
-    private $countryCodes = ["US"];
+    private $countryCodes;
 
     /**
      * @throws ConfigurationException
      */
-    public function __construct($key, $secret, $sid, $from)
+    public function __construct()
     {
+        $key = config('twilio.key');
+        $secret = config('twilio.key');
+        $sid = config('twilio.key');
+        $this->from = config('twilio.from');
+        $this->countryCodes = config('twilio.country_codes');
+
+        if (
+            is_null($key) ||
+            is_null($secret) ||
+            is_null($sid) ||
+            is_null($this->from) ||
+            empty($this->countryCodes)
+        ) {
+            throw new ConfigurationException('Configurations are incorrect');
+        }
+
         $this->twilio = new Client($key, $secret, $sid);
-        $this->from = $from;
     }
 
     /**
@@ -28,8 +43,20 @@ class Twilio
      */
     public function sendSms($to, $message)
     {
+        if (empty($to)) {
+            throw new TwilioException("Recipient is not specified");
+        }
+
+        if (empty($message)) {
+            throw new TwilioException("Message is not specified");
+        }
+
         if (!$this->isValidNumber($to)) {
             throw new TwilioException("Incorrect number");
+        }
+
+        if (!empty($from)) {
+            $this->from = $from;
         }
 
         $this->twilio->messages->create($to, [
@@ -55,17 +82,5 @@ class Twilio
         }
 
         return $number->valid;
-    }
-
-    /**
-     * @throws TwilioException
-     */
-    public function updateCountryCodes($countryCodes)
-    {
-        if (!is_array($countryCodes)) {
-            throw new TwilioException("List of countries must be in array");
-        }
-
-        $this->countryCodes = $countryCodes;
     }
 }
