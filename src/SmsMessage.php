@@ -25,7 +25,7 @@ class SmsMessage
         return $this;
     }
 
-    public function message($message = ''): SmsMessage
+    public function message($message): SmsMessage
     {
         $this->message = $message;
 
