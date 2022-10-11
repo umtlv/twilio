@@ -3,6 +3,7 @@
 namespace Umtlv\Twilio;
 
 use Twilio\Exceptions\TwilioException;
+use Twilio\Rest\Api\V2010\Account\MessageInstance;
 
 class SmsMessage
 {
@@ -34,8 +35,8 @@ class SmsMessage
     /**
      * @throws TwilioException
      */
-    public function send(Twilio $twilio)
+    public function send(Twilio $twilio): MessageInstance
     {
-        $twilio->sendSms($this->to, $this->message, $this->from);
+        return $twilio->sendSms($this->to, $this->message, $this->from);
     }
 }
