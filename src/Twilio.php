@@ -4,7 +4,6 @@ namespace Umtlv\Twilio;
 
 use Twilio\Exceptions\ConfigurationException;
 use Twilio\Exceptions\TwilioException;
-use Twilio\Rest\Api\V2010\Account\MessageInstance;
 use Twilio\Rest\Client;
 
 class Twilio
@@ -25,7 +24,6 @@ class Twilio
     /**
      * @param $to
      * @param $message
-     * @return MessageInstance
      * @throws TwilioException
      */
     public function sendSms($to, $message)
@@ -34,7 +32,7 @@ class Twilio
             throw new TwilioException("Incorrect number");
         }
 
-        return $this->twilio->messages->create($to, [
+        $this->twilio->messages->create($to, [
             'from' => $this->from,
             'body' => $message
         ]);
@@ -43,7 +41,7 @@ class Twilio
     /**
      * @throws TwilioException
      */
-    private function isValidNumber($to)
+    private function isValidNumber($to): bool
     {
         if (empty($to)) return false;
 

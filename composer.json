@@ -13,6 +13,14 @@
         }
     ],
     "require": {
-        "twilio/sdk": "^6.42"
+        "twilio/sdk": "^6.42",
+        "laravel/framework": "^8.37|^9.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Twilio\\Providers\\TwilioServiceProvider"
+            ]
+        }
     }
 }
